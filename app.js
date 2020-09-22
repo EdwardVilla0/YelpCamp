@@ -48,7 +48,7 @@ app.get("/campgrounds", function(req, res){
     if(err){
       console.log(err);
     }else{
-      res.render("campgrounds", {campgrounds: allCampgrounds});
+      res.render("index", {campgrounds: allCampgrounds});
     }
   });
   //res.render("campgrounds", {campgrounds: campgrounds});
@@ -57,7 +57,8 @@ app.get("/campgrounds", function(req, res){
 app.post("/campgrounds", function(req, res){
   var name = req.body.name;
   var image = req.body.image;
-  var newCampground = {name: name, image: image};
+  var desc = req.body.description;
+  var newCampground = {name: name, image: image, description: desc};
   Campground.create(newCampground, function(err, newlyCreated){
     if(err){
       console.log(err);
@@ -72,9 +73,16 @@ app.get("/campgrounds/new", function(req, res){
   res.render("new.ejs");
 });
 
+// shows more info about one campground
 app.get("/campgrounds/:id", function(req, res){
   //find the campground with provided id
-  res.send("this is the show page");
+  Campground.findById(req.params.id, function(err, foundCampground){
+    if(err){
+      console.log(err);
+    }else{
+      res.render("show", {campground: foundCampground});
+    }
+  });
 });
 
 app.listen(3000, process.env.IP, function(){
