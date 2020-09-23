@@ -5,34 +5,10 @@ var express         = require("express"),
     Campground      = require("./models/campground"),
     seedDB          = require("./seeds");
 
-seedDB();
 mongoose.connect("mongodb://localhost:27017/yelp_camp", {useUnifiedTopology: true, useNewUrlParser: true});
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
-
-
-//schema set up
-
-// Campground.create(
-//   {
-//     name: "grandit hill",
-//     image: "https://images.pexels.com/photos/1230302/pexels-photo-1230302.jpeg?auto=compress&cs=tinysrgb&h=350",
-//     description: "beautiful water front views"
-//   }, function(err, campground){
-//     if(err){
-//       console.log(err);
-//     }else{
-//       console.log("Newly Created Campground");
-//       console.log(campground);
-//     }
-//   }
-// );
-
-var campgrounds = [
-  {name: "salmon creek", image: "https://images.pexels.com/photos/776117/pexels-photo-776117.jpeg?auto=compress&cs=tinysrgb&h=350"},
-  {name: "grandit hill", image: "https://images.pexels.com/photos/1230302/pexels-photo-1230302.jpeg?auto=compress&cs=tinysrgb&h=350"},
-  {name: "mountain goat's rest", image: "https://images.pexels.com/photos/2422265/pexels-photo-2422265.jpeg?auto=compress&cs=tinysrgb&h=350"}
-];
+seedDB();
 
 app.get("/", function(req, res){
   res.render("landing");
@@ -72,7 +48,7 @@ app.get("/campgrounds/new", function(req, res){
 // shows more info about one campground
 app.get("/campgrounds/:id", function(req, res){
   //find the campground with provided id
-  Campground.findById(req.params.id, function(err, foundCampground){
+  Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
     if(err){
       console.log(err);
     }else{
