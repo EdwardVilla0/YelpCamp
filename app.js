@@ -129,12 +129,18 @@ app.get("/login", function(req, res){
   res.render("login");
 });
 
-app.post("/login", passport.authenticate("local", 
+app.post("/login", passport.authenticate("local",
   {
     successRedirect: "/campgrounds",
     failureRedirect: "/login"
   }), function(req, res){
 
+});
+
+//log out route
+app.get("/logout", function(req,res){
+  req.logout();
+  res.redirect("/campgrounds");
 });
 
 app.listen(3000, process.env.IP, function(){
