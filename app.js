@@ -13,6 +13,12 @@ mongoose.connect("mongodb://localhost:27017/yelp_camp", {useUnifiedTopology: tru
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
+
+app.use(function(req, res, next){
+  res.locals.currentUser = req.user;
+  next();
+});
+
 seedDB();
 
 // passport config
@@ -32,13 +38,14 @@ app.get("/", function(req, res){
   res.render("landing");
 });
 
+// Campground index page
 app.get("/campgrounds", function(req, res){
   // get all campgrounds from db
   Campground.find({}, function(err, allCampgrounds){
     if(err){
       console.log(err);
     }else{
-      res.render("campgrounds/index", {campgrounds: allCampgrounds});
+      res.render("campgrounds/index", {campgrounds: allCampgrounds, currentUser: req.user});
     }
   });
   //res.render("campgrounds", {campgrounds: campgrounds});
