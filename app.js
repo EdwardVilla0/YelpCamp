@@ -24,7 +24,7 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 
 
-seedDB();
+//seedDB();
 
 // passport config
 app.use(require("express-session")({
