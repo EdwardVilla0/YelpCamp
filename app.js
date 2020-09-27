@@ -4,6 +4,7 @@ var express         = require("express"),
     mongoose        = require("mongoose"),
     seedDB          = require("./seeds"),
     passport        = require("passport"),
+    methodOverride  = require("method-override"),
     Comment         = require("./models/comment"),
     Campground      = require("./models/campground"),
     LocalStrategy   = require("passport-local"),
@@ -22,6 +23,7 @@ mongoose.connect("mongodb://localhost:27017/yelp_camp", {useUnifiedTopology: tru
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
+app.use(methodOverride("_method"));
 
 
 //seedDB();
