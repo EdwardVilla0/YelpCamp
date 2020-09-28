@@ -79,8 +79,8 @@ router.delete("/:id", checkCampgroundOwnership, function(req,res){
   });
 });
 
-//middleware
 
+//middleware
 function isLoggedIn(req, res, next){
   if(req.isAuthenticated()){
     return next();
