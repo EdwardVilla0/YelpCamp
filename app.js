@@ -4,6 +4,7 @@ var express         = require("express"),
     mongoose        = require("mongoose"),
     seedDB          = require("./seeds"),
     passport        = require("passport"),
+    flash           = require("connect-flash"),
     methodOverride  = require("method-override"),
     Comment         = require("./models/comment"),
     Campground      = require("./models/campground"),
@@ -21,6 +22,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
+app.use(flash());
 
 
 //seedDB();
