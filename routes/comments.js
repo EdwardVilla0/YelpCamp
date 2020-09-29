@@ -20,6 +20,7 @@ router.get("/new", middleware.isLoggedIn, function(req, res){
 router.post("/", middleware.isLoggedIn, function(req, res){
   Campground.findById(req.params.id, function(err, campground){
     if(err){
+      req.flash("error", "Something went wrong.");
       console.log(err);
       res.redirect("/campgrounds");
     }else{
@@ -33,6 +34,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
           comment.save();
           campground.comments.push(comment);
           campground.save();
+          req.flash("success", "Succesfully added comment");
           res.redirect("/campgrounds/" + campground._id);
         }
       });
@@ -68,6 +70,7 @@ router.delete("/:comment_id", middleware.checkCommentOwnership, function(req,res
     if(err){
       res.redirect("back");
     }else{
+      req.flash("success", "Comment deleted");
       res.redirect("/campgrounds/" + req.params.id);
     }
   });
